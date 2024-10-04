@@ -1,4 +1,11 @@
-import { backend } from './declarations/backend/index.js';
+import { Actor, HttpAgent } from "@dfinity/agent";
+import { idlFactory } from "./declarations/backend/backend.did.js";
+
+const agent = new HttpAgent();
+const backend = Actor.createActor(idlFactory, {
+  agent,
+  canisterId: process.env.BACKEND_CANISTER_ID,
+});
 
 let currentPuzzle = 0;
 let puzzles = [];
@@ -102,5 +109,9 @@ sizeInput.addEventListener('input', updatePlayerShape);
 weightInput.addEventListener('input', updatePlayerShape);
 styleInput.addEventListener('change', updatePlayerShape);
 submitButton.addEventListener('click', submitSolution);
+
+// Ensure the submit button is properly connected
+console.log("Submit button:", submitButton);
+submitButton.onclick = submitSolution;
 
 initGame();
