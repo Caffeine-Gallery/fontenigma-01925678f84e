@@ -24,6 +24,7 @@ const scoreValue = document.getElementById('score-value');
 
 async function initGame() {
   try {
+    await document.fonts.load('12px "Roboto Flex"');
     puzzles = await backend.getPuzzles();
     console.log("Puzzles loaded:", puzzles);
     if (puzzles.length === 0) {
@@ -32,7 +33,7 @@ async function initGame() {
     loadPuzzle();
   } catch (error) {
     console.error("Error initializing game:", error);
-    feedback.textContent = "Failed to load puzzles. Please refresh the page.";
+    feedback.textContent = "Failed to load puzzles or font. Please refresh the page.";
     disableControls();
   }
 }
@@ -70,10 +71,7 @@ const updatePlayerShape = debounce(() => {
   const style = styleInput.value;
 
   playerShape.style.fontSize = `${size}px`;
-  playerShape.style.fontWeight = weight;
-  playerShape.style.fontStretch = `${width}%`;
-  playerShape.style.fontOpticalSizing = 'auto';
-  playerShape.style.fontVariationSettings = `"opsz" ${opticalSize}`;
+  playerShape.style.fontVariationSettings = `"wght" ${weight}, "wdth" ${width}, "opsz" ${opticalSize}`;
   playerShape.style.fontStyle = style;
 
   document.getElementById('size-value').textContent = size;
