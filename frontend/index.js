@@ -50,7 +50,19 @@ function loadPuzzle() {
   enableControls();
 }
 
-function updatePlayerShape() {
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+const updatePlayerShape = debounce(() => {
   const size = sizeInput.value;
   const weight = weightInput.value;
   const width = widthInput.value;
@@ -68,7 +80,7 @@ function updatePlayerShape() {
   document.getElementById('weight-value').textContent = weight;
   document.getElementById('width-value').textContent = width;
   document.getElementById('optical-size-value').textContent = opticalSize;
-}
+}, 10);
 
 async function submitSolution() {
   if (currentPuzzle >= puzzles.length) {
@@ -120,10 +132,20 @@ function enableControls() {
   submitButton.disabled = false;
 }
 
-sizeInput.addEventListener('input', updatePlayerShape);
-weightInput.addEventListener('input', updatePlayerShape);
-widthInput.addEventListener('input', updatePlayerShape);
-opticalSizeInput.addEventListener('input', updatePlayerShape);
+function addSliderEventListeners(slider) {
+  slider.addEventListener('input', updatePlayerShape);
+  slider.addEventListener('mousemove', (event) => {
+    if (event.buttons === 1) {
+      updatePlayerShape();
+    }
+  });
+  slider.addEventListener('touchmove', updatePlayerShape);
+}
+
+addSliderEventListeners(sizeInput);
+addSliderEventListeners(weightInput);
+addSliderEventListeners(widthInput);
+addSliderEventListeners(opticalSizeInput);
 styleInput.addEventListener('change', updatePlayerShape);
 submitButton.addEventListener('click', submitSolution);
 
