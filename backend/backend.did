@@ -1,0 +1,14 @@
+type Puzzle = 
+ record {
+   id: nat;
+   solution: record {
+               size: nat;
+               style: text;
+               weight: nat;
+             };
+   targetShape: text;
+ };
+service : {
+  getPuzzles: () -> (vec Puzzle) query;
+  validateSolution: (nat, nat, nat, text) -> (bool);
+}

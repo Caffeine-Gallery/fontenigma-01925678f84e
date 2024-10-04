@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Puzzle Game</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Font Puzzle Game</h1>
+        <div id="puzzle-display">
+            <div id="target-shape"></div>
+            <div id="player-shape">A</div>
+        </div>
+        <div id="controls">
+            <label for="size">Size: <span id="size-value">48</span>px</label>
+            <input type="range" id="size" min="12" max="72" value="48">
+            
+            <label for="weight">Weight: <span id="weight-value">400</span></label>
+            <input type="range" id="weight" min="100" max="900" value="400" step="100">
+            
+            <label for="style">Style:</label>
+            <select id="style">
+                <option value="normal">Normal</option>
+                <option value="italic">Italic</option>
+            </select>
+            
+            <button id="submit">Submit Solution</button>
+        </div>
+        <div id="feedback"></div>
+        <div id="score">Score: <span id="score-value">0</span></div>
+    </div>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
