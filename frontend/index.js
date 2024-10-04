@@ -15,6 +15,8 @@ const targetShape = document.getElementById('target-shape');
 const playerShape = document.getElementById('player-shape');
 const sizeInput = document.getElementById('size');
 const weightInput = document.getElementById('weight');
+const widthInput = document.getElementById('width');
+const opticalSizeInput = document.getElementById('optical-size');
 const styleInput = document.getElementById('style');
 const submitButton = document.getElementById('submit');
 const feedback = document.getElementById('feedback');
@@ -51,14 +53,21 @@ function loadPuzzle() {
 function updatePlayerShape() {
   const size = sizeInput.value;
   const weight = weightInput.value;
+  const width = widthInput.value;
+  const opticalSize = opticalSizeInput.value;
   const style = styleInput.value;
 
   playerShape.style.fontSize = `${size}px`;
   playerShape.style.fontWeight = weight;
+  playerShape.style.fontStretch = `${width}%`;
+  playerShape.style.fontOpticalSizing = 'auto';
+  playerShape.style.fontVariationSettings = `"opsz" ${opticalSize}`;
   playerShape.style.fontStyle = style;
 
   document.getElementById('size-value').textContent = size;
   document.getElementById('weight-value').textContent = weight;
+  document.getElementById('width-value').textContent = width;
+  document.getElementById('optical-size-value').textContent = opticalSize;
 }
 
 async function submitSolution() {
@@ -69,12 +78,14 @@ async function submitSolution() {
 
   const size = parseInt(sizeInput.value);
   const weight = parseInt(weightInput.value);
+  const width = parseInt(widthInput.value);
+  const opticalSize = parseInt(opticalSizeInput.value);
   const style = styleInput.value;
 
-  console.log(`Submitting solution: Puzzle ID: ${puzzles[currentPuzzle].id}, Size: ${size}, Weight: ${weight}, Style: ${style}`);
+  console.log(`Submitting solution: Puzzle ID: ${puzzles[currentPuzzle].id}, Size: ${size}, Weight: ${weight}, Width: ${width}, Optical Size: ${opticalSize}, Style: ${style}`);
 
   try {
-    const result = await backend.validateSolution(puzzles[currentPuzzle].id, size, weight, style);
+    const result = await backend.validateSolution(puzzles[currentPuzzle].id, size, weight, width, opticalSize, style);
     console.log(`Validation result:`, result);
     if (result) {
       feedback.textContent = "Correct! Moving to next puzzle.";
@@ -94,6 +105,8 @@ async function submitSolution() {
 function disableControls() {
   sizeInput.disabled = true;
   weightInput.disabled = true;
+  widthInput.disabled = true;
+  opticalSizeInput.disabled = true;
   styleInput.disabled = true;
   submitButton.disabled = true;
 }
@@ -101,17 +114,17 @@ function disableControls() {
 function enableControls() {
   sizeInput.disabled = false;
   weightInput.disabled = false;
+  widthInput.disabled = false;
+  opticalSizeInput.disabled = false;
   styleInput.disabled = false;
   submitButton.disabled = false;
 }
 
 sizeInput.addEventListener('input', updatePlayerShape);
 weightInput.addEventListener('input', updatePlayerShape);
+widthInput.addEventListener('input', updatePlayerShape);
+opticalSizeInput.addEventListener('input', updatePlayerShape);
 styleInput.addEventListener('change', updatePlayerShape);
 submitButton.addEventListener('click', submitSolution);
-
-// Ensure the submit button is properly connected
-console.log("Submit button:", submitButton);
-submitButton.onclick = submitSolution;
 
 initGame();

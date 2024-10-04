@@ -5,11 +5,20 @@ import type { IDL } from '@dfinity/candid';
 export interface Puzzle {
   'id' : bigint,
   'targetShape' : string,
-  'solution' : { 'weight' : bigint, 'size' : bigint, 'style' : string },
+  'solution' : {
+    'weight' : bigint,
+    'size' : bigint,
+    'opticalSize' : bigint,
+    'style' : string,
+    'width' : bigint,
+  },
 }
 export interface _SERVICE {
   'getPuzzles' : ActorMethod<[], Array<Puzzle>>,
-  'validateSolution' : ActorMethod<[bigint, bigint, bigint, string], boolean>,
+  'validateSolution' : ActorMethod<
+    [bigint, bigint, bigint, bigint, bigint, string],
+    boolean
+  >,
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

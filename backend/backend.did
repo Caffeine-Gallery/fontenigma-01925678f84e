@@ -1,14 +1,17 @@
 type Puzzle = 
  record {
    id: nat;
-   solution: record {
-               size: nat;
-               style: text;
-               weight: nat;
-             };
+   solution:
+    record {
+      opticalSize: nat;
+      size: nat;
+      style: text;
+      weight: nat;
+      width: nat;
+    };
    targetShape: text;
  };
 service : {
   getPuzzles: () -> (vec Puzzle) query;
-  validateSolution: (nat, nat, nat, text) -> (bool);
+  validateSolution: (nat, nat, nat, nat, nat, text) -> (bool);
 }

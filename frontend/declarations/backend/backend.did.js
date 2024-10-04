@@ -5,13 +5,15 @@ export const idlFactory = ({ IDL }) => {
     'solution' : IDL.Record({
       'weight' : IDL.Nat,
       'size' : IDL.Nat,
+      'opticalSize' : IDL.Nat,
       'style' : IDL.Text,
+      'width' : IDL.Nat,
     }),
   });
   return IDL.Service({
     'getPuzzles' : IDL.Func([], [IDL.Vec(Puzzle)], ['query']),
     'validateSolution' : IDL.Func(
-        [IDL.Nat, IDL.Nat, IDL.Nat, IDL.Text],
+        [IDL.Nat, IDL.Nat, IDL.Nat, IDL.Nat, IDL.Nat, IDL.Text],
         [IDL.Bool],
         [],
       ),
